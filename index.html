@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ranga Kavya — Software Engineer · Founder · Educator</title>
+<meta name="description" content="Ranga Kavya — Software Engineer, Founder of SchoolSpark, AI & Coding Educator. CSE Graduate 2026, Sambhram Institute of Technology, Bengaluru.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,soft,wght@9..144,0,50,500;9..144,0,50,600;9..144,0,50,700;9..144,1,50,600&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1B2A4A;
+  --ink-soft:#2E4066;
+  --paper:#FAF6EE;
+  --paper-dim:#F1EADA;
+  --marigold:#E8A33D;
+  --marigold-dark:#c7882f;
+  --redpen:#A13D3D;
+  --slate:#5B6472;
+  --ruleline:#D8CFBC;
+  --radius:14px;
+  --max:1120px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--slate);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+h1,h2,h3{font-family:'Fraunces',serif;color:var(--ink);line-height:1.08;letter-spacing:-0.02em;margin:0}
+p{margin:0}
+.eyebrow{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--redpen);font-weight:700}
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;font-family:'Inter',sans-serif;font-weight:700;font-size:14px;border:1.5px solid transparent;cursor:pointer;transition:all .18s ease;letter-spacing:-0.01em}
+.btn-primary{background:var(--marigold);color:var(--ink);border-color:var(--marigold);box-shadow:2px 3px 0 rgba(27,42,74,.12)}
+.btn-primary:hover{background:var(--marigold-dark);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:white}
+.tag{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;background:var(--paper-dim);color:var(--ink);padding:6px 9px;border-radius:999px;border:1px solid var(--ruleline)}
+.rule{height:1px;background:var(--ruleline);margin:0}
+/* doodle filter */
+.doodle-filter{position:absolute;width:0;height:0;overflow:hidden}
+/* header */
+.header{position:sticky;top:0;z-index:50;background:rgba(250,246,238,.84);backdrop-filter:blur(10px) saturate(1.2);border-bottom:1px solid transparent;transition:all .2s ease}
+.header.scrolled{background:rgba(250,246,238,.96);border-bottom-color:var(--ruleline);box-shadow:0 6px 24px rgba(27,42,74,.07)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:16px}
+.brand{display:flex;align-items:center;gap:10px}
+.mark{width:36px;height:36px;border-radius:50%;background:var(--ink);display:grid;place-items:center;flex-shrink:0;border:1.5px solid var(--ink)}
+.mark svg{width:18px;height:18px}
+.wordmark{font-family:'Fraunces',serif;font-weight:700;color:var(--ink);font-size:18px;letter-spacing:-0.03em}
+.wordmark span{color:var(--marigold)}
+.nav{display:flex;align-items:center;gap:22px}
+.nav a{font-family:'Space Mono',monospace;font-size:11.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);opacity:.78;font-weight:700}
+.nav a:hover{opacity:1}
+.nav-cta{padding:8px 14px;border-radius:999px;background:var(--ink);color:white !important;opacity:1 !important}
+.hamburger{display:none;width:38px;height:38px;border-radius:10px;border:1.5px solid var(--ruleline);background:var(--paper-dim);display:none;align-items:center;justify-content:center;cursor:pointer}
+@media(max-width:860px){
+  .nav{display:none}
+  .nav.open{display:flex;position:absolute;top:62px;left:0;right:0;background:var(--paper);border-bottom:1px solid var(--ruleline);flex-direction:column;align-items:flex-start;padding:18px 24px;gap:14px;box-shadow:0 12px 30px rgba(27,42,74,.08)}
+  .hamburger{display:flex}
+}
+/* circuit trace */
+.trace-wrap{position:fixed;left:12px;top:68px;bottom:20px;width:28px;z-index:4;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:0;opacity:.9}
+@media(max-width:1200px){.trace-wrap{left:2px;width:18px}}
+@media(max-width:860px){.trace-wrap{display:none}}
+.trace-line{width:2px;flex:1;background:repeating-linear-gradient(to bottom, var(--ruleline) 0 6px, transparent 6px 10px);position:relative;border-radius:99px}
+.trace-progress{position:absolute;left:0;top:0;width:100%;background:repeating-linear-gradient(to bottom, var(--marigold) 0 6px, transparent 6px 10px);border-radius:99px;transition:height .08s linear}
+.trace-dot{width:10px;height:10px;border-radius:50%;background:var(--paper);border:2px solid var(--ruleline);flex-shrink:0}
+.trace-dot.active{background:var(--marigold);border-color:var(--marigold);box-shadow:0 0 0 4px rgba(232,163,61,.18)}
+.trace-dot.ink{background:var(--ink);border-color:var(--ink)}
+/* hero */
+.hero{padding:42px 0 10px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .9fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(32px,4.6vw,54px);font-weight:650;margin:10px 0 14px}
+.hero h1 em{font-style:italic;color:var(--ink);position:relative;display:inline-block}
+.hero h1 em .squiggle{position:absolute;left:-4px;right:-6px;bottom:-8px;height:12px;pointer-events:none}
+.subhead{font-size:16.5px;color:var(--slate);max-width:52ch;line-height:1.6}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0 18px}
+.hero-contacts{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:6px}
+.hero-contacts a{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);display:inline-flex;align-items:center;gap:7px;background:var(--paper-dim);border:1px solid var(--ruleline);padding:7px 10px;border-radius:999px;font-weight:700}
+.hero-contacts a:hover{background:white}
+/* doodle frame */
+.doodle-frame{position:relative;background:white;padding:10px 10px 16px 10px;border:1.6px solid var(--ink);border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;transform:rotate(-1.8deg);box-shadow:6px 8px 0 rgba(27,42,74,.08), 0 10px 30px rgba(27,42,74,.06);filter:url(#doodleFilter);transition:transform .2s ease}
+.doodle-frame img{width:100%;height:100%;object-fit:cover;border-radius:10px;aspect-ratio:4/4.7}
+.doodle-frame.rot2{transform:rotate(2.2deg)}
+.doodle-frame.rot-neg{transform:rotate(-2.8deg)}
+.doodle-frame:hover{transform:rotate(0deg) scale(1.01)}
+.washi{position:absolute;top:-10px;left:18%;width:78px;height:22px;background:rgba(232,163,61,.78);transform:rotate(-14deg);border-radius:2px;box-shadow:0 1px 4px rgba(0,0,0,.1);backdrop-filter:blur(2px);border:1px solid rgba(255,255,255,.6)}
+.washi.alt{background:rgba(241,234,218,.92);left:auto;right:14%;transform:rotate(12deg)}
+.washi.red{background:rgba(161,61,61,.14);border:1px dashed rgba(161,61,61,.3)}
+.doodle-star{position:absolute;pointer-events:none;color:var(--marigold)}
+.doodle-star svg{width:34px;height:34px;filter:drop-shadow(0 2px 6px rgba(232,163,61,.3))}
+.doodle-arrow{position:absolute;pointer-events:none}
+.caption-doodle{position:absolute;bottom:-18px;right:-8px;background:var(--paper-dim);border:1.5px solid var(--ink);padding:6px 10px;border-radius:255px 15px 225px 15px / 15px 225px 15px 255px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);font-weight:700;transform:rotate(1.5deg);box-shadow:2px 2px 0 rgba(27,42,74,.08)}
+/* sections */
+section{padding:56px 0}
+.section-head{margin-bottom:22px}
+.section-head h2{font-size:clamp(26px,3.4vw,38px);margin:6px 0 8px}
+.kicker{max-width:68ch;color:var(--slate);font-size:15.5px}
+.grid-2{display:grid;grid-template-columns:1fr 380px;gap:34px;align-items:start}
+@media(max-width:860px){.hero-grid,.grid-2{grid-template-columns:1fr}.doodle-frame{max-width:420px;margin:0 auto}}
+.squiggle-path{fill:none;stroke:var(--marigold);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;opacity:.95}
+.ink-circle{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round;stroke-dasharray:2 4;opacity:.18}
+.red-underline{fill:none;stroke:var(--redpen);stroke-width:2;stroke-linecap:round;opacity:.9}
+/* cards */
+.card{background:white;border:1.5px solid var(--ruleline);border-radius:16px;padding:18px;box-shadow:3px 4px 0 rgba(27,42,74,.04)}
+.timeline{display:flex;flex-direction:column;gap:16px}
+.tl-card{position:relative;padding-left:18px;border-left:2px dashed var(--ruleline)}
+.tl-card::before{content:"";position:absolute;left:-6px;top:20px;width:10px;height:10px;border-radius:50%;background:var(--marigold);border:2px solid var(--paper)}
+.tl-title{font-family:'Fraunces',serif;color:var(--ink);font-weight:700;font-size:18px}
+.tl-meta{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--redpen);font-weight:700;margin:4px 0 8px}
+.tl-bullets{margin:10px 0 0 16px;color:var(--slate);font-size:14px;line-height:1.6}
+.tl-bullets li{margin:4px 0}
+.stack{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.navy-card{background:var(--ink);color:#E9EAF0;border-radius:20px;padding:26px;position:relative;overflow:hidden;border:1.5px solid var(--ink-soft)}
+.navy-card h3{color:white;font-size:26px}
+.navy-card p{color:#C8CFE0}
+.navy-card .tag{background:rgba(255,255,255,.1);color:white;border-color:rgba(255,255,255,.15)}
+.sparkle-bg{position:absolute;right:-20px;top:-20px;width:220px;height:220px;opacity:.07;pointer-events:none}
+.project-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:860px){.project-grid{grid-template-columns:1fr}}
+.proj{padding:18px;background:white;border:1.5px solid var(--ruleline);border-radius:16px;position:relative;transition:transform .16s ease, box-shadow .16s ease}
+.proj:hover{transform:translateY(-2px);box-shadow:5px 8px 0 rgba(27,42,74,.05)}
+.proj h3{font-size:18px}
+.proj p{font-size:14px;margin:8px 0 10px;color:var(--slate)}
+.workshop-list{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+@media(max-width:700px){.workshop-list{grid-template-columns:1fr}}
+.ws-point{background:var(--paper-dim);border:1.5px solid var(--ruleline);border-radius:14px;padding:14px}
+.ws-point strong{font-family:'Fraunces',serif;color:var(--ink)}
+.education-card{display:grid;grid-template-columns: 1fr 360px;gap:24px;align-items:center;background:white;border:1.5px solid var(--ruleline);border-radius:18px;padding:18px}
+@media(max-width:860px){.education-card{grid-template-columns:1fr}}
+.skills{display:flex;flex-wrap:wrap;gap:8px}
+.skills .tag{background:white}
+.contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:24px}
+@media(max-width:860px){.contact-grid{grid-template-columns:1fr}}
+.form{display:flex;flex-direction:column;gap:12px}
+.input, .textarea{width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid var(--ruleline);background:white;font-family:'Inter',sans-serif;font-size:14px;color:var(--ink);outline:none;transition:border-color .15s}
+.input:focus,.textarea:focus{border-color:var(--marigold)}
+.textarea{min-height:118px;resize:vertical}
+.contact-lines{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.contact-lines a{display:flex;align-items:center;gap:10px;font-weight:600;color:var(--ink)}
+.icon-box{width:34px;height:34px;border-radius:10px;background:var(--paper-dim);border:1px solid var(--ruleline);display:grid;place-items:center;flex-shrink:0}
+.reveal{opacity:0;transform:translateY(14px);transition:all .6s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none} html{scroll-behavior:auto}}
+.footer{padding:28px 0 36px;border-top:1px solid var(--ruleline);margin-top:18px}
+.footer-inner{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+.muted{color:var(--slate);font-size:13px}
+.note{font-family:'Space Mono',monospace;font-size:11px;color:var(--slate);background:var(--paper-dim);border:1px dashed var(--ruleline);padding:8px 10px;border-radius:10px}
+</style>
+</head>
+<body>
+<!-- doodle filter definition -->
+<svg class="doodle-filter" aria-hidden="true"><defs><filter id="doodleFilter"><feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.2" xChannelSelector="R" yChannelSelector="G"/></filter></defs></svg>
+
+<div class="trace-wrap" aria-hidden="true">
+  <div class="trace-dot ink" title="top"></div>
+  <div class="trace-line"><div class="trace-progress" id="traceProgress" style="height:0%"></div></div>
+  <div class="trace-dot" id="traceEnd"></div>
+</div>
+
+<header class="header" id="header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="#" class="brand" aria-label="Ranga Kavya home">
+        <span class="mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M13.5 2.5L6.5 13.5H11.2L9.5 21.5L18.5 10.5H12.8L13.5 2.5Z" fill="#E8A33D" stroke="#E8A33D" stroke-linejoin="round" stroke-width="1.2"/></svg>
+        </span>
+        <span class="wordmark">Ranga <span>Kavya</span></span>
+      </a>
+      <nav class="nav" id="nav">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#workshops">Workshops</a>
+        <a href="#contact" class="nav-cta">Contact</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1B2A4A" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="reveal">
+          <div class="eyebrow">Software Engineer · Founder · AI & Coding Educator</div>
+          <h1>I build software, <em>and I build <span style="position:relative">the people
+            <svg class="squiggle" viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path class="squiggle-path" d="M2 9 C 20 2, 40 12, 60 7, 80 2, 100 11, 120 6, 140 1, 160 10, 180 5, 190 3, 198 8"/></svg>
+          </span> who'll build the next of it.</em>
+            <!-- small star doodle near headline -->
+            <span style="display:inline-block;vertical-align:super;margin-left:6px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2l1.6 5.2H19l-4.3 3.1 1.6 5.2L12 12.4 7.7 15.5l1.6-5.2L5 7.2h5.4L12 2z" stroke="#E8A33D" stroke-width="1.5" stroke-linejoin="round" fill="none"/><circle cx="20" cy="4" r="1.2" fill="#A13D3D"/></svg></span>
+          </h1>
+          <p class="subhead">Computer Science Engineering graduate (2026) from <strong style="color:var(--ink)">Sambhram Institute of Technology, Bengaluru</strong>. Full-stack developer, founder of <strong style="color:var(--ink)">SchoolSpark</strong>, and I run hands-on AI &amp; coding workshops for schools.</p>
+          <div class="hero-ctas">
+            <a href="#projects" class="btn btn-primary">View my work →</a>
+            <a href="#workshops" class="btn btn-ghost">Book a workshop</a>
+            <!-- curved arrow doodle pointing to CTA -->
+            <span class="doodle-arrow" style="position:relative;display:inline-flex;align-items:center;margin-left:2px" aria-hidden="true">
+              <svg width="42" height="22" viewBox="0 0 42 22" fill="none"><path d="M2 16 C 10 6, 22 2, 32 8" stroke="#A13D3D" stroke-width="1.6" stroke-linecap="round" fill="none"/><path d="M26 4 L32 8 L27 14" stroke="#A13D3D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+            </span>
+          </div>
+          <div class="hero-contacts">
+            <a href="mailto:rangakavya27@gmail.com" aria-label="Email">✉︎ rangakavya27@gmail.com</a>
+            <a href="https://wa.me/917032112185" target="_blank" rel="noopener">◉ +91 70321 12185</a>
+            <a href="https://www.linkedin.com/in/ranga-kavya-448480264/" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#1B2A4A"><path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.27c-.97 0-1.75-.79-1.75-1.75s.78-1.75 1.75-1.75 1.75.79 1.75 1.75-.78 1.75-1.75 1.75zm13.5 12.27h-3v-5.6c0-1.34-.03-3.06-1.86-3.06-1.87 0-2.15 1.46-2.15 2.96v5.7h-3v-11h2.88v1.5h.04c.4-.75 1.37-1.54 2.82-1.54 3.01 0 3.57 1.98 3.57 4.55v6.49z"/></svg>
+              LinkedIn
+            </a>
+            <a href="https://github.com/kavya-ux-2" target="_blank" rel="noopener" aria-label="GitHub">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#1B2A4A"><path d="M12 .3a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.04c-3.34.73-4.04-1.42-4.04-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.23 1.84 1.23 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6-.0c2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.82 1.11.82 2.24v3.32c0 .32.22.69.82.57A12 12 0 0 0 12 .3z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+        <div class="reveal" style="transition-delay:.08s">
+          <div class="doodle-frame" style="max-width:420px;margin-left:auto">
+            <div class="washi" aria-hidden="true"></div>
+            <img src="photos/photo-white-sweater.jpg" alt="Ranga Kavya — friendly professional headshot in white sweater" loading="eager" onerror="this.style.display='none'">
+            <span class="doodle-star" style="top:-12px;right:-10px" aria-hidden="true">
+              <svg viewBox="0 0 34 34" fill="none"><path d="M17 2l2.2 9.2H29l-7.3 5.6 2.6 9.2L17 20.4 9.7 26l2.6-9.2L5 11.2h9.8L17 2z" stroke="#E8A33D" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            </span>
+            <span class="caption-doodle">Hello! ✦</span>
+            <!-- imperfect circle doodle -->
+            <svg style="position:absolute;inset:-10px;pointer-events:none" viewBox="0 0 400 460" fill="none" aria-hidden="true"><ellipse cx="200" cy="225" rx="192" ry="214" class="ink-circle"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule container" style="opacity:.6"></div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="grid-2">
+        <div class="reveal">
+          <div class="eyebrow">About</div>
+          <div class="section-head">
+            <h2>Engineer, founder, <span style="position:relative;display:inline-block">teacher
+              <svg style="position:absolute;left:-2px;right:-2px;bottom:-6px;height:8px;width:100%" viewBox="0 0 120 8" preserveAspectRatio="none" aria-hidden="true"><path class="red-underline" d="M2 6 C 18 2, 32 7, 48 4, 64 1, 78 6, 94 3, 106 1, 115 5, 118 6"/></svg>
+            </span> — one thread.</h2>
+            <p class="kicker">I like building things that make people more capable. That is the through-line between my engineering work, SchoolSpark, and teaching.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px;font-size:15.5px">
+            <p>I'm a Computer Science Engineering graduate (Class of 2026) from Sambhram Institute of Technology, Bengaluru, with a strong foundation in <strong style="color:var(--ink)">full-stack web development</strong> — PHP/CodeIgniter 4, Java/Spring Boot, and React.js. I was <strong style="color:var(--ink)">Coding Club Lead</strong> during college, which is where I first learned I love teaching as much as building.</p>
+            <p>As the founder of <strong style="color:var(--ink)">SchoolSpark</strong>, I help private schools get found online with modern websites, local SEO, and admission-enquiry automation — the first digital presence many of them have ever had.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px">
+              <span class="tag">Full-stack</span><span class="tag">CodeIgniter 4</span><span class="tag">Spring Boot</span><span class="tag">React.js</span><span class="tag">Educator</span>
+            </div>
+          </div>
+        </div>
+        <div class="reveal" style="transition-delay:.07s">
+          <div class="doodle-frame rot2">
+            <div class="washi alt" aria-hidden="true"></div>
+            <img src="photos/photo-blazer-sitting.jpg" alt="Ranga Kavya seated in office, professional blazer look" loading="lazy" onerror="this.style.display='none'">
+            <span class="caption-doodle" style="left:-10px;right:auto;bottom:-14px">Coding Club Lead → Founder</span>
+          </div>
+          <p style="font-family:'Space Mono',monospace;font-size:11px;color:var(--slate);text-align:center;margin-top:18px;letter-spacing:.04em">Award shelf in the background — a reminder that consistency compounds.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" style="background:var(--paper-dim);border-top:1.5px solid var(--ruleline);border-bottom:1.5px solid var(--ruleline)">
+    <div class="container">
+      <div class="grid-2">
+        <div class="reveal">
+          <div class="eyebrow">Experience</div>
+          <h2 style="margin:6px 0 16px">Building real systems, not just demos.</h2>
+          <div class="timeline">
+            <div class="tl-card card">
+              <div class="tl-title">Muraai — Intern, Intelligent Capture (IC) team</div>
+              <div class="tl-meta">Intelligent Capture · Intern</div>
+              <p style="font-size:14px">Part of the IC team focused on document understanding and capture workflows. Details to be expanded as the role progresses.</p>
+            </div>
+            <div class="tl-card card">
+              <div class="tl-title">EffiGo Global Pvt. Ltd. —  Product Engineering Intern</div>
+              <div class="tl-meta">Mahindra Procurement Platform · PHP · CodeIgniter 4 · React.js · MySQL</div>
+              <p style="font-size:14px;margin:0">Worked on the Mahindra Procurement Platform across procurement workflows and vendor-facing experiences:</p>
+              <ul class="tl-bullets">
+                <li>Built <strong>RFQ (Request for Quotation)</strong> workflows and <strong>TPR (Tender Purchase Request)</strong> modules — including Minor, Sourcing, and Sourcing Minor variants; plus <strong>ION (Award Synopsis)</strong> and <strong>Bill of Lading (BL)</strong></li>
+                <li>Built a <strong>vendor-facing portal</strong> and a <strong>ticketing module end-to-end</strong> (React.js UI, REST APIs, MySQL)</li>
+                <li>Built an <strong>email notification system</strong> spanning <strong>28+ mail trigger methods</strong> across the RFQ lifecycle</li>
+                <li>Refactored file uploads into a standardized <code style="background:var(--paper-dim);padding:2px 6px;border-radius:6px;border:1px solid var(--ruleline)">MyUploader</code> library; implemented <strong>approver workflow logic</strong>; integrated <strong>Azure Blob Storage</strong></li>
+              </ul>
+              <div class="stack"><span class="tag">PHP</span><span class="tag">CodeIgniter 4</span><span class="tag">React.js</span><span class="tag">MySQL</span><span class="tag">Azure Blob</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal" style="transition-delay:.08s">
+          <div class="doodle-frame rot-neg">
+            <div class="washi" style="background:rgba(161,61,61,.12);border:1px dashed rgba(161,61,61,.25)" aria-hidden="true"></div>
+            <img src="photos/photo-laptop-working.jpg" alt="Ranga Kavya working on a laptop - building software" loading="lazy" onerror="this.style.display='none'">
+            <!-- small sparkle doodle -->
+            <span style="position:absolute;top:-14px;left:-10px" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2l1 4 4 1-4 1-1 4-1-4-4-1 4-1 1-4z" stroke="#E8A33D" stroke-width="1.4" stroke-linejoin="round"/><path d="M18 12l1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2z" stroke="#1B2A4A" stroke-width="1.2" stroke-linejoin="round"/></svg></span>
+          </div>
+          <div class="card" style="margin-top:16px;padding:12px 14px;display:flex;gap:10px;align-items:center">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--marigold);flex-shrink:0;box-shadow:0 0 0 4px rgba(232,163,61,.15)"></span>
+            <span style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);font-weight:700">Open for product discussions — procurement tech, ed-tech &amp; AI</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCHOOLSPARK SPOTLIGHT -->
+  <section id="schoolspark">
+    <div class="container">
+      <div class="navy-card reveal" style="display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:center">
+        <svg class="sparkle-bg" viewBox="0 0 200 200" fill="none" aria-hidden="true"><circle cx="100" cy="100" r="80" stroke="white" stroke-width="1" stroke-dasharray="4 6"/><path d="M60 100h80M100 60v80" stroke="white" stroke-width="1"/><circle cx="100" cy="100" r="4" fill="#E8A33D"/></svg>
+        <div>
+          <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(232,163,61,.15);border:1px solid rgba(232,163,61,.3);padding:6px 10px;border-radius:999px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#FFD38A;font-weight:700"><span style="width:7px;height:7px;border-radius:50%;background:#E8A33D;display:inline-block"></span> Founder Spotlight</div>
+          <h3 style="margin:12px 0 10px">I founded <span style="color:#E8A33D">SchoolSpark</span> — helping private schools get found online.</h3>
+          <p style="font-size:15px;line-height:1.6">Websites, local SEO, and admission-enquiry automation. For many schools, we build their <em style="color:#FFD38A">first-ever website</em> — clean, fast, and built to convert enquiries.</p>
+          <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:10px">
+            <span class="tag">Websites</span><span class="tag">Local SEO</span><span class="tag">Admissions automation</span>
+          </div>
+          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+            <a href="https://school-spark.vercel.app/" target="_blank" rel="noopener" class="btn btn-primary" style="background:var(--marigold);color:var(--ink)">Visit SchoolSpark →</a>
+            
+          </div>
+        </div>
+        <div style="background:var(--paper);border-radius:14px;padding:14px;border:1.5px solid var(--ruleline);transform:rotate(0.6deg)">
+          <div style="font-family:'Fraunces',serif;color:var(--ink);font-weight:700;font-size:16px;display:flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:50%;background:var(--marigold)"></span> Currently building</div>
+          <p style="color:var(--slate);font-size:14px;margin:6px 0 0">A private school's first-ever website — from zero to discoverable.</p>
+          <div style="margin-top:12px;height:1px;background:var(--ruleline)"></div>
+          <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><span class="tag">Fast</span><span class="tag">Mobile-first</span><span class="tag">Enquiry-ready</span></div>
+          <!-- hand-drawn circle accent -->
+          <svg style="position:absolute;right:10px;bottom:10px;width:80px;height:40px;pointer-events:none" viewBox="0 0 80 40" fill="none" aria-hidden="true"><ellipse cx="40" cy="20" rx="36" ry="14" stroke="#E8A33D" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="2 3" opacity=".7"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKSHOPS -->
+  <section id="workshops">
+    <div class="container">
+      <div class="grid-2" style="align-items:center">
+        <div class="reveal">
+          <div class="eyebrow">Teaching</div>
+          <h2>AI &amp; Coding workshops <span style="position:relative;display:inline-block">for schools
+            <svg style="position:absolute;left:-4px;right:-4px;bottom:-7px;height:10px;width:100%" viewBox="0 0 200 10" preserveAspectRatio="none" aria-hidden="true"><path class="squiggle-path" d="M2 7 C 18 2, 36 9, 54 4, 72 0, 90 8, 108 4, 126 0, 144 9, 162 5, 180 1, 192 6, 198 7"/></svg>
+          </span> — and online classes.</h2>
+          <p style="margin:10px 0 12px;font-size:15.5px">Hands-on, one-day workshops for middle-school students (11–14) introducing AI concepts and coding fundamentals via <strong style="color:var(--ink)">Scratch</strong> and beginner-friendly AI tools — run individually for schools. I also offer online classes for learners who want to go deeper.</p>
+          <p style="font-size:14.5px;background:var(--paper-dim);border:1.5px solid var(--ruleline);border-radius:12px;padding:10px 12px"><strong style="color:var(--ink)">Credibility anchor:</strong> Coding Club Lead — I have run peer-learning sessions, guided juniors, and learned that the best way to learn is to teach.</p>
+          <div class="workshop-list">
+            <div class="ws-point"><strong>What is AI, hands-on</strong><p style="font-size:13.5px;margin-top:4px">Demystify AI with live examples, not slides. Students touch the tools.</p></div>
+            <div class="ws-point"><strong>Build your first program</strong><p style="font-size:13.5px;margin-top:4px">From Scratch blocks to real logic — loops, conditions, and creativity.</p></div>
+            <div class="ws-point"><strong>A mini AI project to take home</strong><p style="font-size:13.5px;margin-top:4px">Every student leaves with something they built and can show parents.</p></div>
+          </div>
+          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+            <a href="https://wa.me/917032112185?text=Hi%20Ranga%2C%20I%27d%20like%20to%20enquire%20about%20an%20AI%20%26%20Coding%20workshop%20for%20our%20school." target="_blank" rel="noopener" class="btn btn-primary">Enquire about a workshop →</a>
+            <a href="mailto:rangakavya27@gmail.com?subject=Workshop%20enquiry%20—%20AI%20%26%20Coding%20workshop" class="btn btn-ghost">Email to book</a>
+          </div>
+        </div>
+        <div class="reveal" style="transition-delay:.07s">
+          <div class="doodle-frame rot2">
+            <div class="washi alt" aria-hidden="true"></div>
+            <img src="photos/photo-sunglasses-outdoor.jpg" alt="Ranga Kavya outdoors, relaxed approachable style for workshops" loading="lazy" onerror="this.style.display='none'">
+            <span class="caption-doodle" style="bottom:-12px">Warm, not corporate ✦</span>
+          </div>
+          <p style="text-align:center;margin-top:14px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--slate)">Schools book a person, not just a syllabus.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" style="background:white;border-top:1.5px solid var(--ruleline);border-bottom:1.5px solid var(--ruleline)">
+    <div class="container">
+      <div class="reveal">
+        <div class="eyebrow">Projects</div>
+        <h2 style="margin:6px 0 8px">Things I've built.</h2>
+        <p class="kicker" style="margin-bottom:18px">A mix of AI, web, and impact-focused work. Code is on GitHub — explore the repos and demos below.</p>
+      </div>
+      <div class="project-grid reveal">
+        <div class="proj">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="width:8px;height:8px;border-radius:50%;background:var(--ink)"></span><span class="eyebrow" style="margin:0">Featured · BUILD 2026</span></div>
+          <h3>NYAYA — AI-powered legal navigation for India</h3>
+          <p>An AI platform to help citizens navigate India's legal system — with a full pitch deck, targeting BUILD 2026.</p>
+          <div class="stack"><span class="tag">AI / LLMs</span><span class="tag">Research</span><span class="tag">Pitch deck</span></div>
+          <div style="margin-top:10px;display:flex;gap:12px;flex-wrap:wrap"><span class="muted" style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--slate);border-bottom:1px dashed var(--ruleline)">Pitch stage — repo on request</span><a href="https://github.com/kavya-ux-2" target="_blank" rel="noopener" style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--ink);border-bottom:1px solid var(--ink)">GitHub →</a></div>
+        </div>
+        <div class="proj">
+          <h3>Eco-Harvest Sustainability Platform</h3>
+          <p>Platform focused on sustainable harvesting and supply visibility — connects waste vendors to farmers for a sustainable world.</p>
+          <div class="stack"><span class="tag">React.js</span><span class="tag">Node.js</span><span class="tag">Express.js</span><span class="tag">Firebase</span></div>
+          <div style="margin-top:10px;display:flex;gap:12px;flex-wrap:wrap"><a href="https://github.com/kavya-ux-2/vceo-harvest" target="_blank" rel="noopener" style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--ink);border-bottom:1px solid var(--ink)">GitHub →</a><a href="https://github.com/kavya-ux-2/vceo-harvest" target="_blank" rel="noopener" style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--marigold-dark);border-bottom:1px dashed var(--marigold)">Demo →</a></div>
+        </div>
+        <div class="proj">
+          <h3>AI-Powered Notes Summarizer</h3>
+          <p>Paste notes, get clean summaries — powered by an LLM API. Java + Spring Boot + OpenAI.</p>
+          <div class="stack"><span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">OpenAI API</span></div>
+          <div style="margin-top:10px;display:flex;gap:12px;flex-wrap:wrap"><a href="https://github.com/kavya-ux-2/Notes_Summarizer_AI" target="_blank" rel="noopener" style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--ink);border-bottom:1px solid var(--ink)">GitHub →</a><a href="https://github.com/kavya-ux-2/Notes_Summarizer_AI" target="_blank" rel="noopener" style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--marigold-dark);border-bottom:1px dashed var(--marigold)">Demo →</a></div>
+        </div>
+        <div class="proj">
+          <h3>AI-Based Tactical Military Scanner</h3>
+          <p>ML-based scanning concept for tactical awareness — Python + Machine Learning. Prototype for intelligent detection.</p>
+          <div class="stack"><span class="tag">Python</span><span class="tag">Machine Learning</span><span class="tag">JavaScript</span></div>
+          <div style="margin-top:10px;display:flex;gap:12px;flex-wrap:wrap"><a href="https://github.com/kavya-ux-2/Tactical_Scanner" target="_blank" rel="noopener" style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--ink);border-bottom:1px solid var(--ink)">GitHub →</a><a href="https://github.com/kavya-ux-2/Tactical_Scanner" target="_blank" rel="noopener" style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--marigold-dark);border-bottom:1px dashed var(--marigold)">Demo →</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="container">
+      <div class="reveal">
+        <div class="eyebrow">Education</div>
+        <h2 style="margin:6px 0 14px">Learned to build, then to lead.</h2>
+      </div>
+      <div class="education-card reveal">
+        <div>
+          <div style="display:flex;align-items:center;gap:10px"><span class="eyebrow" style="margin:0">2019 — 2026</span><span style="width:6px;height:6px;border-radius:50%;background:var(--marigold)"></span><span class="eyebrow" style="margin:0;color:var(--ink)">Bengaluru</span></div>
+          <h3 style="font-size:22px;margin:10px 0 6px">Bachelor's in Computer Science and Engineering</h3>
+          <p style="font-weight:700;color:var(--ink)">Sambhram Institute of Technology, Bengaluru — Class of 2026</p>
+          <p style="font-size:14.5px;margin-top:10px">Strong CS fundamentals, product-focused development, and leadership through the Coding Club — mentoring peers and running hands-on sessions.</p>
+          <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:8px"><span class="tag">CSE</span><span class="tag">Class of 2026</span><span class="tag">Coding Club Lead</span></div>
+        </div>
+        <div class="doodle-frame" style="transform:rotate(1.4deg)">
+          <div class="washi" aria-hidden="true"></div>
+          <img src="photos/photo-graduation.jpg" alt="Ranga Kavya graduation - cap and gown, Sambhram Institute of Technology" loading="lazy" onerror="this.style.background='#F1EADA';this.style.minHeight='220px';this.alt='Graduation photo placeholder - replace with photo-graduation.jpg'">
+          <span class="caption-doodle" style="background:var(--marigold);color:var(--ink);border-color:var(--ink)">Class of 2026 ✦</span>
+          <span class="doodle-star" style="top:-10px;left:-10px" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2l1.2 4.8H18l-3.9 2.8 1.5 4.8L12 11.6 8.4 14.4l1.5-4.8L6 7H10.8L12 2z" stroke="#A13D3D" stroke-width="1.3" stroke-linejoin="round"/></svg></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section style="padding:28px 0">
+    <div class="container">
+      <div class="reveal" style="background:var(--paper-dim);border:1.5px solid var(--ruleline);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="eyebrow" style="margin:0">Skills</span><span style="height:14px;width:1px;background:var(--ruleline)"></span><span style="font-family:'Fraunces',serif;color:var(--ink);font-weight:700">Tools I use to ship.</span></div>
+        <div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--redpen);font-weight:700;margin-bottom:6px">Languages / Frameworks</div>
+          <div class="skills"><span class="tag">PHP</span><span class="tag">CodeIgniter 4</span><span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">React.js</span><span class="tag">JavaScript</span><span class="tag">HTML / CSS</span></div>
+        </div>
+        <div class="rule"></div>
+        <div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--redpen);font-weight:700;margin-bottom:6px">Cloud / Tools</div>
+          <div class="skills"><span class="tag">AWS</span><span class="tag">Docker</span><span class="tag">Git</span><span class="tag">Azure Blob Storage</span><span class="tag">MySQL</span><span class="tag">REST APIs</span></div>
+        </div>
+        <div class="rule"></div>
+        <div>
+          <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--redpen);font-weight:700;margin-bottom:6px">Other</div>
+          <div class="skills"><span class="tag">UX / Figma fundamentals</span><span class="tag">Teaching &amp; Workshops</span><span class="tag">Local SEO</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="background:white;border-top:1.5px solid var(--ruleline)">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="reveal">
+          <div class="eyebrow">Contact</div>
+          <h2 style="margin:6px 0 10px">Let's talk — hiring, a school workshop, or a project.</h2>
+          <p style="font-size:15px">Fastest is WhatsApp or email. I read everything.</p>
+          <div class="contact-lines">
+            <a href="mailto:rangakavya27@gmail.com"><span class="icon-box">✉︎</span> rangakavya27@gmail.com</a>
+            <a href="https://wa.me/917032112185" target="_blank" rel="noopener"><span class="icon-box">◉</span> +91 70321 12185 · WhatsApp</a>
+            <a href="https://www.linkedin.com/in/ranga-kavya-448480264/" target="_blank" rel="noopener"><span class="icon-box"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1B2A4A"><path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.27c-.97 0-1.75-.79-1.75-1.75s.78-1.75 1.75-1.75 1.75.79 1.75 1.75-.78 1.75-1.75 1.75zm13.5 12.27h-3v-5.6c0-1.34-.03-3.06-1.86-3.06-1.87 0-2.15 1.46-2.15 2.96v5.7h-3v-11h2.88v1.5h.04c.4-.75 1.37-1.54 2.82-1.54 3.01 0 3.57 1.98 3.57 4.55v6.49z"/></svg></span> linkedin.com/in/ranga-kavya-448480264</a>
+          </div>
+          <a href="https://github.com/kavya-ux-2" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:10px;font-weight:600;color:var(--ink)"><span class="icon-box"><svg width="14" height="14" viewBox="0 0 24 24" fill="#1B2A4A"><path d="M12 .3a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.04c-3.34.73-4.04-1.42-4.04-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.23 1.84 1.23 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6-.0c2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.82 1.11.82 2.24v3.32c0 .32.22.69.82.57A12 12 0 0 0 12 .3z"/></svg></span> github.com/kavya-ux-2</a>
+          <form class="form" id="contactForm" onsubmit="return handleMailto(event)">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <input class="input" name="name" placeholder="Your name" required>
+              <input class="input" name="email" placeholder="Your email (optional)">
+            </div>
+            <textarea class="textarea" name="message" placeholder="Hi Ranga, I'd like to talk about..." required></textarea>
+            <button type="submit" class="btn btn-primary" style="align-self:flex-start">Send via email →</button>
+            <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--slate)">—> this opens your email app with a pre-filled message to rangakavya27@gmail.com</span>
+          </form>
+        </div>
+        <div class="reveal" style="transition-delay:.06s">
+          <div class="doodle-frame" style="max-width:360px;margin:0 auto;transform:rotate(-1.2deg)">
+            <div class="washi red" aria-hidden="true"></div>
+            <img src="photos/photo-bw-portrait.jpg" alt="Ranga Kavya — black and white candid portrait, closing personal touch" loading="lazy" style="filter:grayscale(1);aspect-ratio:1/0.85" onerror="this.style.display='none'">
+            <span class="caption-doodle" style="font-size:9px">Based in Bengaluru ✦ Open to remote</span>
+          </div>
+          <div style="margin-top:16px;background:var(--paper-dim);border:1.5px solid var(--ruleline);border-radius:12px;padding:12px 14px;font-size:13.5px">
+            <strong style="color:var(--ink);font-family:'Fraunces',serif">Prefer a quick chat?</strong><p style="margin-top:4px">Tap WhatsApp above — I usually reply within a few hours.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="mark" style="width:28px;height:28px"><svg viewBox="0 0 24 24" fill="none"><path d="M13.5 2.5L6.5 13.5H11.2L9.5 21.5L18.5 10.5H12.8L13.5 2.5Z" fill="#E8A33D" stroke="#E8A33D" stroke-linejoin="round" stroke-width="1.2"/></svg></span>
+        <span style="font-family:'Fraunces',serif;font-weight:700;color:var(--ink)">Ranga Kavya</span>
+        <span style="color:var(--ruleline)">·</span>
+        <span class="muted">Based in Bengaluru · Open to remote &amp; relocation.</span>
+      </div>
+      <span class="muted" style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase">© 2026 Ranga Kavya · Built with care ✦</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const header=document.getElementById('header');
+const nav=document.getElementById('nav');
+const ham=document.getElementById('hamburger');
+ham.addEventListener('click',()=>{
+  const open=nav.classList.toggle('open');
+  ham.setAttribute('aria-expanded',open?'true':'false');
+});
+document.querySelectorAll('#nav a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
+
+function onScroll(){
+  header.classList.toggle('scrolled',window.scrollY>8);
+  const docH=document.documentElement.scrollHeight-window.innerHeight;
+  const pct=docH>0?(window.scrollY/docH)*100:0;
+  document.getElementById('traceProgress').style.height=pct+'%';
+  const dots=document.querySelectorAll('.trace-dot');
+  dots.forEach(d=>d.classList.remove('active'));
+  // simple: first dot active at top, last at bottom
+  if(window.scrollY<100) dots[0].classList.add('active');
+  else if(pct>92) document.getElementById('traceEnd').classList.add('active');
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) e.target.classList.add('in');
+  });
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+function handleMailto(e){
+  e.preventDefault();
+  const fd=new FormData(e.target);
+  const name=(fd.get('name')||'').toString().trim();
+  const email=(fd.get('email')||'').toString().trim();
+  const msg=(fd.get('message')||'').toString().trim();
+  const subject=encodeURIComponent('Portfolio enquiry — '+(name||'Hello from website'));
+  const body=encodeURIComponent(
+    (name?`Hi Ranga, this is ${name}.\n\n`:'Hi Ranga,\n\n')+
+    msg+
+    (email?`\n\n— Reply to: ${email}`:'')+
+    '\n\n— Sent from rangakavya.in portfolio'
+  );
+  window.location.href=`mailto:rangakavya27@gmail.com?subject=${subject}&body=${body}`;
+  return false;
+}
+
+// smooth close menu on outside click
+document.addEventListener('click',(e)=>{
+  if(!nav.contains(e.target) && !ham.contains(e.target)) nav.classList.remove('open');
+});
+</script>
+</body>
+</html>
